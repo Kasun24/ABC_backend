@@ -105,6 +105,13 @@ class CustomerController extends Controller
             ->paginate($length);
         return response()->json(['status' => true, 'data' => $customers]);
     }
+
+    public function allCustomerList(Request $request)
+    {
+        $customers = Customer::all();
+        return response()->json(['status' => true, 'data' => $customers]);
+    }
+
     public function customerCreate(Request $request)
     {
         $request->validate([

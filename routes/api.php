@@ -152,5 +152,6 @@ Route::post('/order-ready', [OrderController::class, 'confirmOrderReady']);
 Route::post('/delete-order-item', [OrderController::class, 'deleteOrderItem']);
 
 Route::get('/customer/list', [CustomerController::class, 'customerList']);
+Route::get('/customer/all', [CustomerController::class, 'allCustomerList']);
 Route::post('/customer/create', [CustomerController::class, 'customerCreate']);
 Route::post('/customer/update', [CustomerController::class, 'customerUpdate']);
