@@ -24,7 +24,7 @@ class CreateQueriesTable extends Migration
             $table->text('status');
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('response');
+            $table->string('response')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

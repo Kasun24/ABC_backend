@@ -28,7 +28,7 @@ class QueryController extends Controller
         $orderBy = $request->input('dir') ? $request->input('dir') : 'asc';
         $searchValue = $request->input('search') ? $request->input('search') : '';
 
-        $queries = Query::where([['branch_id', $branch_id], ['name', 'like', '%' . $searchValue . '%']])
+        $queries = Query::where([['branch_id', $branch_id], ['subject', 'like', '%' . $searchValue . '%']])
             ->orderBy($sortBy, $orderBy)
             ->paginate($length);
 
@@ -49,17 +49,17 @@ class QueryController extends Controller
         ]);
 
         $query = new Query();
+        $query->branch_id = $request->header('Branch');
         $query->customer_id = $request->customer_id;
         $query->subject = $request->subject;
         $query->message = $request->message;
-        $query->branch_id = $request->header('Branch');
         $query->status = 'pending'; // Default status
-        $query->user_id = '';
+        $query->user_id = $request->user_id;
         try {
             $query->save();
             return response()->json(['status' => true, 'message' =>  __('lang.t-query_add_successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-query_add_ailed')]);
+            return response()->json(['status' => false, 'message' =>  __('lang.t-query_add_ailed' . $e->getMessage())]);
         }
     }
 
