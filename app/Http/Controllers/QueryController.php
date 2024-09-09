@@ -14,6 +14,8 @@ class QueryController extends Controller
      * @param  Request  $request
      * @return string
      */
+
+    //  here send email related from id = customer_id from customers table and name from users table user_id = id 
     public function queryList(Request $request)
     {
 
@@ -28,12 +30,16 @@ class QueryController extends Controller
         $orderBy = $request->input('dir') ? $request->input('dir') : 'asc';
         $searchValue = $request->input('search') ? $request->input('search') : '';
 
-        $queries = Query::where([['branch_id', $branch_id], ['subject', 'like', '%' . $searchValue . '%']])
+        $queries = Query::select('queries.*', 'customers.email as customer_email', 'users.name as user_name')
+            ->join('customers', 'queries.customer_id', '=', 'customers.id')
+            ->join('users', 'queries.user_id', '=', 'users.id')
+            ->where([['queries.branch_id', $branch_id], ['queries.subject', 'like', '%' . $searchValue . '%']])
             ->orderBy($sortBy, $orderBy)
             ->paginate($length);
 
         return response()->json(['status' => true, 'data' => $queries]);
     }
+
 
     public function createquery(Request $request)
     {
