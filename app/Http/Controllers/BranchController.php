@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GastroMasterApiHelper;
 use App\Helpers\Helper;
 use App\Models\Branch;
 use App\Models\Discount;
-use App\Models\GeneralSetting;
 use App\Models\MenuCategory;
 use App\Models\Order;
 use App\Models\Query;
@@ -207,20 +205,6 @@ class BranchController extends Controller
             }
         }
     }
-
-    public function getApiBranches(Request $request)
-    {
-        $settings = GeneralSetting::first();
-        if ($settings && $settings->api_endpoint && $settings->sec_token) {
-            $branches = GastroMasterApiHelper::getBranches();
-            if ($branches) {
-                return response()->json(['status' => true, 'data' => $branches]);
-            }
-        }
-
-        return response()->json(['status' => false, 'data' => null]);
-    }
-
 
     public function allbranchs(Request $request)
     {
