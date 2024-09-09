@@ -24,16 +24,16 @@ class LoginController extends Controller
                 return response()->json(['token' => $token, 'user' => $user, 'status' => 'success']);
             } 
             else {
-                return response()->json(['message' => __('lang.Access denied'), 'status' => 'false']);
+                return response()->json(['message' => __('Access denied'), 'status' => 'false']);
             }
         }
 
-        return response()->json(['message' => __('lang.Invalid credentials'), 'status' => 'false']);
+        return response()->json(['message' => __('Invalid credentials'), 'status' => 'false']);
     }
 
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response()->json(['message' => __('lang.t-logged_out'), 'status' => 'success']);
+        return response()->json(['message' => __('Logged out'), 'status' => 'success']);
     }
 }

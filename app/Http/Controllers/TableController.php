@@ -55,7 +55,7 @@ class TableController extends Controller
         // Validate incoming data
         foreach ($incomingData as $value) {
             if (!$value['elementId'] || !$value['name'] || !$value['type'] || !isset($value['locationX']) || !isset($value['locationY']) || !$value['width'] || !$value['height']) {
-                return response()->json(['status' => false, 'message' => __('lang.t-something_went_wrong'), 'value' => $value]);
+                return response()->json(['status' => false, 'message' => __('Something went wrong'), 'value' => $value]);
             }
         }
 
@@ -77,7 +77,7 @@ class TableController extends Controller
     foreach ($groupedData as $key => $data) {
         if (count($data) > 1) {
             $table_number = explode('-', $key)[0];
-            return response()->json(['status' => false, 'message' => __('lang.t-duplicate_table_number'), 'table_number' => $table_number]);
+            return response()->json(['status' => false, 'message' => __('Duplicate table'), 'table_number' => $table_number]);
         }
     }
 
@@ -221,7 +221,7 @@ class TableController extends Controller
         }
     });
 
-    return response()->json(['status' => true, 'message' => __('lang.t-table_saved_successfully')]);
+    return response()->json(['status' => true, 'message' => __('Table saved successfully')]);
 }
 
 
@@ -288,7 +288,7 @@ class TableController extends Controller
                 $newTableArea->color = $request->color;
             }
             $newTableArea->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-table_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Table updated successfully')]);
         } else {
             // If it exists, update the item
             $oldTableArea = $statusTableArea;
@@ -309,7 +309,7 @@ class TableController extends Controller
                 $oldTableArea->color = $request->color;
             }
             $oldTableArea->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-table_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Table updated successfully')]);
         }
     }
 
@@ -336,7 +336,7 @@ class TableController extends Controller
                 $newTable->color = $request->color;
             }
             $newTable->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-table_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Table updated successfully')]);
         } else {
             // If it exists, update the item
             $oldTable = $statusTable;
@@ -358,7 +358,7 @@ class TableController extends Controller
                 $oldTable->color = $request->color;
             }
             $oldTable->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-table_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Table updated successfully')]);
         }
     }
 }
@@ -379,21 +379,21 @@ class TableController extends Controller
 
         $tableArea = TableArea::find($request->id);
         if (!$tableArea) {
-            return response()->json(['status' => false, 'message' => __('lang.t-table_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('Table delete failed')]);
         } else {
             if ($tableArea->type === 'tableZone' && $tableArea->addedTables !== []) {
-                return response()->json(['status' => false, 'message' => __('lang.failed_to_delete_table_area_because_there_is_a_table')]);
+                return response()->json(['status' => false, 'message' => __('Failed to delete table')]);
             }
             if ($tableArea->delete()) {
                 $arr = [
                     'status' => true,
-                    'msg' => __('lang.t-table_area_deleted_successfully')
+                    'msg' => __('Table deleted successfully')
                 ];
                 return response()->json($arr);
             } else {
                 $arr = [
                     'status' => false,
-                    'msg' => __('lang.t-table_delete_failed')
+                    'msg' => __('Table delete failed')
                 ];
                 return response()->json($arr);
             }

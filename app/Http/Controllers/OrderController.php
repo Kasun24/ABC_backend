@@ -160,7 +160,7 @@ class OrderController extends Controller
     public function sendToKitchenPOS(Request $request)
     {
         if (!$request->order_delivery_type) {
-            return response()->json(['status' => false, 'message' => __('lang.t-no_order_delivery_type')]);
+            return response()->json(['status' => false, 'message' => __('No order delivery type found')]);
         }
 
         $orderDeliveryType = $request->order_delivery_type;
@@ -169,10 +169,10 @@ class OrderController extends Controller
             if (empty($request->customer_details['name']) || empty($request->customer_details['mobile_number'])) {
                 return response()->json([
                     'status' => false,
-                    'message' => __('lang.t-customer_details_required'),
+                    'message' => __('Customer name and mobile number are required'),
                     'errors' => [
-                        'name' => __('lang.t-customer_name_required'),
-                        'mobile_number' => __('lang.t-customer_mobile_number_required')
+                        'name' => __('Customer name required'),
+                        'mobile_number' => __('Customer mobile number required')
                     ]
                 ]);
             }
@@ -473,7 +473,7 @@ class OrderController extends Controller
         $order = Order::where('table_orders_id', $request->table_id)->where('status', 'processing')->with('orderItems')->first();
 
         if (!$order) {
-            return response()->json(['status' => false, 'message' => __('lang.t-no_orders_in_this_table')]);
+            return response()->json(['status' => false, 'message' => __('Not found')]);
         }
 
         // Get order items
@@ -607,7 +607,7 @@ class OrderController extends Controller
             $order->status = 'completed';
             $order->save();
 
-            return response()->json(['status' => true, 'msg' => __('lang.t-order_completed')]);
+            return response()->json(['status' => true, 'msg' => __('Order Completed')]);
         }
 
         return response()->json(['status' => false]);
@@ -1024,9 +1024,9 @@ class OrderController extends Controller
         $order->status = $request->status;
         try {
             $order->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-order_status_updated')]);
+            return response()->json(['status' => true, 'message' => __('Order updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-order_update_failed')]);
+            return response()->json(['status' => false, 'message' => __('Order update failed')]);
         }
     }
 
@@ -1051,7 +1051,7 @@ class OrderController extends Controller
             $order->status = 'completed';
             $order->save();
 
-            return response()->json(['status' => true, 'msg' => __('lang.t-order_completed')]);
+            return response()->json(['status' => true, 'msg' => __('Order completed successfully')]);
         }
 
         return response()->json(['status' => false]);
@@ -1067,7 +1067,7 @@ class OrderController extends Controller
             ->get();
 
         if (count($orders) <= 0) {
-            return response()->json(['status' => false, 'message' => __('lang.t-no_orders_in_this_table')]);
+            return response()->json(['status' => false, 'message' => __('No orders found')]);
         }
 
         $allorderDetails = [];
@@ -1185,7 +1185,7 @@ class OrderController extends Controller
     public function confirmOrderReady(Request $request)
     {
         if (count($request->order_items) <= 0) {
-            return response()->json(['status' => false, 'message' => __('lang.t-something_went_wrong_the_order_cannot_be_mark_as_a_ready')]);
+            return response()->json(['status' => false, 'message' => __('Sorry, No order item found')]);
         }
         try {
             foreach ($request->order_items as $key => $order_item) {
@@ -1193,16 +1193,16 @@ class OrderController extends Controller
                 $orderReadyItem->status = 'completed';
                 $orderReadyItem->save();
             }
-            return response()->json(['status' => true, 'message' => __('lang.t-order_is_ready')]);
+            return response()->json(['status' => true, 'message' => __('Order Ready Successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-something_went_wrong_the_order_cannot_be_mark_as_a_ready')]);
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }
     }
 
     public function deleteOrderItem(Request $request)
     {
         if (!$request->selectedDish['item_id']) {
-            return response()->json(['status' => false, 'message' => __('lang.t-no_order_item_found')]);
+            return response()->json(['status' => false, 'message' => __('No item found')]);
         }
         try {
             $deleteOrderItem = OrderItem::find($request->selectedDish['item_id']);
@@ -1210,7 +1210,7 @@ class OrderController extends Controller
             if ($deleteOrderItem->delete()) {
                 $arr = [
                     'status' => true,
-                    'msg' =>  __('lang.t-dish_delete_successfully')
+                    'msg' =>  __('Dish deleted successfully'),
                 ];
                 if ($allItemsCountInThisOrder <= 1) {
                     $cancelOrder = Order::find($deleteOrderItem->orders_id);
@@ -1221,12 +1221,12 @@ class OrderController extends Controller
             } else {
                 $arr = [
                     'status' => false,
-                    'msg' =>  __('lang.t-dish_delete_failed')
+                    'msg' =>  __('Dish not deleted'),
                 ];
                 return response()->json($arr);
             }
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-something_went_wrong')]);
+            return response()->json(['status' => false, 'message' => __('Something went wrong')]);
         }
     }
 }

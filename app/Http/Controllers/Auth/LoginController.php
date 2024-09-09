@@ -21,13 +21,13 @@ class LoginController extends Controller
             return response()->json(['token' => $token, 'user' => $user]);
         }
 
-        return response()->json(['message' => __('lang.t-invalid_credentials')], 401);
+        return response()->json(['message' => __('Invalid credentials')], 401);
     }
 
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
 
-        return response()->json(['message' => __('lang.t-logged_out')], 200);
+        return response()->json(['message' => __('Logged out')], 200);
     }
 }

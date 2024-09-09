@@ -51,7 +51,7 @@ class RoleController extends Controller
         ]);
 
         if (Role::where('role',$request->role)->count() > 0) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-this_role_is_already_exists')]);
+            return response()->json(['status' => false, 'message' =>  __('This role is already exists')]);
         }
 
         $roles = new Role();
@@ -70,9 +70,9 @@ class RoleController extends Controller
                 $PermissionsInRole->save();
             }
 
-            return response()->json(['status' => true, 'message' =>  __('lang.t-role_add_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('Role added successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-role_add_failed')]);
+            return response()->json(['status' => false, 'message' =>  __('Role addition failed')]);
         }
     }
 
@@ -113,7 +113,7 @@ class RoleController extends Controller
         ]);
 
         if (Role::where([['role',$request->role],['id','!=',$role->id]])->count() > 0) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-this_role_is_already_exists')]);
+            return response()->json(['status' => false, 'message' =>  __('This role is already exists')]);
         }
 
         $role->role = $request->role;
@@ -145,9 +145,9 @@ class RoleController extends Controller
                 ->whereNotIn('id', $ids)
                 ->delete();
 
-            return response()->json(['status' => true, 'message' => __('lang.t-role_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Role updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-role_update_failed')]);
+            return response()->json(['status' => false, 'message' => __('Role update failed')]);
         }
     }
 
@@ -163,18 +163,18 @@ class RoleController extends Controller
 
         $role = Role::find($request->id);
         if (!$role) {
-            return response()->json(['status' => false, 'message' => __('lang.t-role_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('Role deletion failed')]);
         } else {
             if ($role->delete()) {
                 $arr = [
                     'status' => true,
-                    'msg' =>  __('lang.t-role_delete_successfully')
+                    'msg' =>  __('Role deleted successfully')
                 ];
                 return response()->json($arr);
             } else {
                 $arr = [
                     'status' => false,
-                    'msg' =>  __('lang.t-role_delete_failed')
+                    'msg' =>  __('Role deletion failed')
                 ];
                 return response()->json($arr);
             }

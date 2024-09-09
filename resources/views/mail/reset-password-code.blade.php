@@ -36,16 +36,16 @@
                                     <td bgcolor="#ffffff">
                                         <font color="#333333" face="Verdana" size="1" style="font-size:11px;line-height:16px"><br>
                                             <br>
-                                            <b>{{__('lang.dear')}} <?= $name ?></b><br>
+                                            <b>{{__('Dear')}} <?= $name ?></b><br>
                                         </font>
                                     </td>
                                 </tr>
                                 <tr>
                                     <font color="#333333" face="Verdana" size="1" style="font-size:11px;line-height:16px">
                                         <br>
-                                        {{__('lang.order_reset_email_content_1')}} ABC {{__('lang.order_reset_email_content_2')}}
+                                        {{__('order_reset_email_content_1')}} ABC {{__('order_reset_email_content_2')}}
                                         <br> <br>
-                                        {{__('lang.order_reset_email_content_3')}}
+                                        {{__('order_reset_email_content_3')}}
                                         <br><br>
                                         <strong style="font-size: 15px;"><?= $code; ?></strong>
                                         <br>

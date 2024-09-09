@@ -158,7 +158,7 @@ class MenuCategoryController extends Controller
             }
             return response()->json(['status' => true, 'data' => $menuCategories]);
         } else {
-            return response()->json(['status' => false, 'msg' => __('lang.t-menu_category_not_found')]);
+            return response()->json(['status' => false, 'msg' => __('Menu Category Not Found')]);
         }
     }
 }

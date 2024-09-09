@@ -56,9 +56,9 @@ class CustomerController extends Controller
 
         try {
             $customerDevice->save();
-            return response()->json(['status' => true, 'message' =>  __('lang.t-customer_device_registered_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('Customer device registered successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-customer_device_register_failed'), $e]);
+            return response()->json(['status' => false, 'message' => __('Customer device registration failed'), $e]);
         }
     }
 
@@ -85,9 +85,9 @@ class CustomerController extends Controller
 
         try {
             $customerDevice->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-customer_device_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Customer device updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-customer_device_update_failed'), 'error' => $e->getMessage()]);
+            return response()->json(['status' => false, 'message' => __('Customer device update failed'), 'error' => $e->getMessage()]);
         }
     }
 
@@ -126,9 +126,9 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         try {
             $customer->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-customer_added_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Customer added successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-customer_add_failed'), 'error' => $e->getMessage()]);
+            return response()->json(['status' => false, 'message' => __('Customer add failed'), 'error' => $e->getMessage()]);
         }
     }
     public function customerUpdate(Request $request)
@@ -148,9 +148,9 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         try {
             $customer->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-customer_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Customer updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-customer_update_failed'), 'error' => $e->getMessage()]);
+            return response()->json(['status' => false, 'message' => __('Customer update failed'), 'error' => $e->getMessage()]);
         }
     }
     public function customerDelete(Request $request)
@@ -161,9 +161,9 @@ class CustomerController extends Controller
         }
         try {
             $customer->delete();
-            return response()->json(['status' => true, 'message' => __('lang.t-customer_deleted_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Customer deleted successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-customer_delete_failed'), 'error' => $e->getMessage()]);
+            return response()->json(['status' => false, 'message' => __('Customer delete failed'), 'error' => $e->getMessage()]);
         }
     }
 }

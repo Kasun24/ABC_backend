@@ -57,9 +57,9 @@ class QueryController extends Controller
         $query->user_id = $request->user_id;
         try {
             $query->save();
-            return response()->json(['status' => true, 'message' =>  __('lang.t-query_add_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('Query added successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-query_add_ailed' . $e->getMessage())]);
+            return response()->json(['status' => false, 'message' =>  __('Query add failed' . $e->getMessage())]);
         }
     }
 
@@ -101,7 +101,7 @@ class QueryController extends Controller
         $request->validate([
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
-            'status' => 'required|in:pending,in_progress,resolved',
+            'status' => 'required|in:pending,resolved',
             'response' => 'nullable|string',
         ]);
 
@@ -113,9 +113,9 @@ class QueryController extends Controller
 
         try {
             $query->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-query_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('Query updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-query_update_failed')]);
+            return response()->json(['status' => false, 'message' => __('Query update failed' . $e->getMessage())]);
         }
     }
 
@@ -134,18 +134,18 @@ class QueryController extends Controller
 
         $query = Query::find($request->id);
         if (!$query) {
-            return response()->json(['status' => false, 'message' => __('lang.t-query_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('Query delete failed')]);
         } else {
             if ($query->delete()) {
                 $arr = [
                     'status' => true,
-                    'msg' =>  __('lang.t-query_delete_successfully')
+                    'msg' =>  __('Query deleted successfully')
                 ];
                 return response()->json($arr);
             } else {
                 $arr = [
                     'status' => false,
-                    'msg' =>  __('lang.t-query_delete_failed')
+                    'msg' =>  __('Query delete failed')
                 ];
                 return response()->json($arr);
             }

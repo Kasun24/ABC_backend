@@ -42,19 +42,19 @@ class ResetPasswordController extends Controller
      */
     public function forgot_password(Request $request){
         if($request->email == ''){
-            return response()->json(['status' => false,'msg' => [__('lang.t-email_must_required')]], 401);
+            return response()->json(['status' => false,'msg' => [__('Email must required')]], 401);
         }
         if(User::where([['email', $request->email]])->count() != 1){
-            return response()->json(['status' => false,'msg' => [__('lang.t-this_email_not_exists')]], 401);
+            return response()->json(['status' => false,'msg' => [__('This email does not exist')]], 401);
         }else{
             $code = Helper::GetCode();
             User::where([['email', $request->email]])->update(array('remember_token' => $code));
             $user = User::where([['email', $request->email]])->first();
-            $status = Helper::Send_mail(['code' => $code,"name" => $user->name],$request->email,__('lang.t-password_reset_title'),'mail.reset-password-code');
+            $status = Helper::Send_mail(['code' => $code,"name" => $user->name],$request->email,__('Password Reset'),'mail.reset-password-code');
             if($status){
-                return response()->json(['status' => true,'msg' => [__('lang.t-please_check_your_mailbox')]], 200);
+                return response()->json(['status' => true,'msg' => [__('Please check your email')]], 200);
             }else{
-                return response()->json(['status' => false,'msg' => [__('lang.t-try_again')]], 401);
+                return response()->json(['status' => false,'msg' => [__('Something went wrong')]], 401);
             }
         }
     }
@@ -71,10 +71,10 @@ class ResetPasswordController extends Controller
             if(isset($user[0])){
                 return response()->json(['status' => true], 200);
             }else{
-                return response()->json(['status' => false,'msg' => [__('lang.t-this_code_is_not_valid')]], 401);
+                return response()->json(['status' => false,'msg' => [__('This code is not valid')]], 401);
             }
         }else{
-            return response()->json(['status' => false,'msg' => [__('lang.t-this_code_is_not_valid')]], 401);
+            return response()->json(['status' => false,'msg' => [__('This code is not valid')]], 401);
         }
     }
 
@@ -98,9 +98,9 @@ class ResetPasswordController extends Controller
             $user->password = Hash::make($request->password);
             $user->remember_token = null;
             if($user->save()){
-                return response()->json(['status' => true, 'msg' => __('lang.t-password_reset_success')], 200);
+                return response()->json(['status' => true, 'msg' => __('Password reset successfully')], 200);
             }else{
-                return response()->json(['status' => false,'msg' => [__('lang.t-password_reset_fail')]], 401);
+                return response()->json(['status' => false,'msg' => [__('Password reset failed')]], 401);
             }
         }else{
             return abort('404');

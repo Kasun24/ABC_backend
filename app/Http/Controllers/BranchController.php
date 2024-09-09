@@ -83,7 +83,7 @@ class BranchController extends Controller
         ]);
 
         if (Branch::where('name',$request->name)->count() > 0) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-this_branch_name_is_already_exists')]);
+            return response()->json(['status' => false, 'message' =>  __('This branch name is already exists')]);
         }
 
         $branches = new Branch();
@@ -95,9 +95,9 @@ class BranchController extends Controller
 
         try {
             $branches->save();
-            return response()->json(['status' => true, 'message' =>  __('lang.t-branch_add_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('Branch added successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-branch_add_failed')]);
+            return response()->json(['status' => false, 'message' =>  __('Branch add failed'), 'error' => $e->getMessage()]);
         }
     }
 
@@ -141,7 +141,7 @@ class BranchController extends Controller
         ]);
 
         if (Branch::where([['name',$request->name],['id','!=',$request->id]])->count() > 0) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-this_branch_name_is_already_exists')]);
+            return response()->json(['status' => false, 'message' =>  __('This branch name is already exists')]);
         }
 
         $branches = $status;
@@ -156,9 +156,9 @@ class BranchController extends Controller
 
         try {
             $branches->save();
-            return response()->json(['status' => true, 'message' =>  __('lang.t-branch_updated_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('Branch updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' =>  __('lang.t-branch_updated_failed')]);
+            return response()->json(['status' => false, 'message' =>  __('Branch update failed'), 'error' => $e->getMessage()]);
         }
     }
 
@@ -177,14 +177,14 @@ class BranchController extends Controller
 
         $branch = Branch::find($request->id);
         if (!$branch) {
-            return response()->json(['status' => false, 'message' => __('lang.t-branch_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('Branch delete failed')]);
         } else {
             $massagesArr = [];
             if (User::whereJsonContains('branches', $branch->id)->exists()) {
                 array_push($massagesArr,'users');
             }
             if (count($massagesArr) > 0) {
-                $message = __('lang.t-unable_to_delete_selected_branch_because_it_is_in_use_users');
+                $message = __('Unable to delete branch. Because it is used in ') . implode(", ", $massagesArr);
                 $arr = [
                     'status' => false,
                     'msg' =>  $message
@@ -194,13 +194,13 @@ class BranchController extends Controller
                 if ($branch->delete()) {
                     $arr = [
                         'status' => true,
-                        'msg' =>  __('lang.t-branch_delete_successfully')
+                        'msg' =>  __('Branch deleted successfully')
                     ];
                     return response()->json($arr);
                 } else {
                     $arr = [
                         'status' => false,
-                        'msg' =>  __('lang.t-branch_delete_failed')
+                        'msg' =>  __('Branch delete failed')
                     ];
                     return response()->json($arr);
                 }
@@ -221,12 +221,6 @@ class BranchController extends Controller
         return response()->json(['status' => false, 'data' => null]);
     }
 
-    public function syncApiBranch(Request $request)
-    {
-
-        GastroMasterApiHelper::syncData($request->branch_id);
-        return response()->json(['status' => true, "msg" => __('lang.t-sync_success')]);
-    }
 
     public function allbranchs(Request $request)
     {
@@ -249,7 +243,7 @@ class BranchController extends Controller
 
         $branch = Branch::find($request->id);
         if (!$branch) {
-            return response()->json(['status' => false, 'message' => __('lang.t-branch_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('Branch delete failed')]);
         } else {
             $massagesArry = [];
             if (User::whereJsonContains('branches', $branch->id)->exists()) {
@@ -287,7 +281,7 @@ class BranchController extends Controller
 
             }
 
-            $message = __('lang.t-you_are_trying_to_delete_a_branch_that_has') . implode(', ', $massagesArry) . __('lang.t-this_action_cannot_be_undone_and_you_wont_be_able_to_access_this_branch_related_data_anymore');
+            $message = __('You are not allowed to delete branch') . implode(', ', $massagesArry) . __('This action cannot be undone');
 
             $arr = [
                 'status' => true,

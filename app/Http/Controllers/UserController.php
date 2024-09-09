@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $permission_in_roles = Helper::checkFunctionPermission('user_view');
         if (!$permission_in_roles) {
-            return response()->json(['status' => false, 'data' => __('lang.t-you_dont_have_permission_to_perform_this_action')], 403);
+            return response()->json(['status' => false, 'data' => __('You do not have permission')], 403);
         }
 
         $length = $request->input('length') ? $request->input('length') : 10;
@@ -106,7 +106,7 @@ class UserController extends Controller
                 if (strpos($imageData, ';') !== false) {
                     list($type, $imageData) = explode(';', $imageData);
                 } else {
-                    return response()->json(['status' => false, 'message' => __('lang.t-invalid_image_format')]);
+                    return response()->json(['status' => false, 'message' => __('Invalid image format')]);
                 }
 
                 if (strpos($imageData, ',') !== false) {
@@ -116,7 +116,7 @@ class UserController extends Controller
                     Storage::disk('public')->put('images/user/' . $imageName, $imageData);
                     $user->image = $imageName;
                 } else {
-                    return response()->json(['status' => false, 'message' => __('lang.t-invalid_image_format')]);
+                    return response()->json(['status' => false, 'message' => __('Invalid image format')]);
                 }
             }
         }
@@ -125,9 +125,9 @@ class UserController extends Controller
 
         try {
             $user->save();
-            return response()->json(['status' => true, 'message' =>  __('lang.t-user_registered_successfully')]);
+            return response()->json(['status' => true, 'message' =>  __('User created successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-user_register_failed'), $e]);
+            return response()->json(['status' => false, 'message' => __('User creation failed'), $e]);
         }
     }
 
@@ -207,7 +207,7 @@ class UserController extends Controller
                 if (strpos($imageData, ';') !== false) {
                     list($type, $imageData) = explode(';', $imageData);
                 } else {
-                    return response()->json(['status' => false, 'message' => __('lang.t-invalid_image_format')]);
+                    return response()->json(['status' => false, 'message' => __('Invalid image format')]);
                 }
 
                 if (strpos($imageData, ',') !== false) {
@@ -226,7 +226,7 @@ class UserController extends Controller
                     // Set the new image
                     $user->image = $imageName;
                 } else {
-                    return response()->json(['status' => false, 'message' => __('lang.t-invalid_image_format')]);
+                    return response()->json(['status' => false, 'message' => __('Invalid image format')]);
                 }
             }
         }
@@ -235,9 +235,9 @@ class UserController extends Controller
 
         try {
             $user->save();
-            return response()->json(['status' => true, 'message' => __('lang.t-user_updated_successfully')]);
+            return response()->json(['status' => true, 'message' => __('User updated successfully')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => false, 'message' => __('lang.t-user_update_failed'), 'error' => $e->getMessage()]);
+            return response()->json(['status' => false, 'message' => __('User update failed'), 'error' => $e->getMessage()]);
         }
     }
 
@@ -258,18 +258,18 @@ class UserController extends Controller
         }
         $user = User::find($request->id);
         if (!$user) {
-            return response()->json(['status' => false, 'message' => __('lang.t-user_delete_failed')]);
+            return response()->json(['status' => false, 'message' => __('User delete failed')]);
         } else {
             if ($user->delete()) {
                 $arr = [
                     'status' => true,
-                    'msg' => __('lang.t-user_deleted_successfully')
+                    'msg' => __('User deleted successfully')
                 ];
                 return response()->json($arr);
             } else {
                 $arr = [
                     'status' => false,
-                    'msg' => __('lang.t-user_delete_failed')
+                    'msg' => __('User delete failed')
                 ];
                 return response()->json($arr);
             }
@@ -307,6 +307,6 @@ class UserController extends Controller
         $branch_id = $request->branch_id;
         $user->branch_id = $branch_id;
         $user->save();
-        return response()->json(['status' => true, 'message' => __('lang.t-user_updated_successfully')]);
+        return response()->json(['status' => true, 'message' => __('User updated successfully')]);
     }
 }
