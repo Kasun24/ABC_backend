@@ -8,18 +8,13 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\GastroMasterController;
 use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\TaxController;
 use App\Http\Controllers\QueryController;
-use App\Http\Controllers\Waiter\Auth\LoginController as WaiterLoginController;
-use App\Http\Controllers\Waiter\TableController as WaiterTableController;
 use App\Http\Controllers\MenuCategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ActivityLogController;
-use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,12 +72,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/table/update', [TableController::class, 'updateTable']);
     Route::post('/table/delete', [TableController::class, 'deleteTable']);
 
-    Route::get('/tax/list', [TaxController::class, 'taxesList']);
-    Route::post('/tax/create', [TaxController::class, 'createTax']);
-    Route::get('/tax/{tax_id}', [TaxController::class, 'getTax']);
-    Route::post('/tax/update', [TaxController::class, 'updateTax']);
-    Route::post('/tax/delete', [TaxController::class, 'deleteTax']);
-
     Route::get('/query/list', [QueryController::class, 'queryList']);
     Route::post('/query/create', [QueryController::class, 'createquery']);
     Route::get('/query/{query_id}', [QueryController::class, 'getQuery']);
@@ -102,23 +91,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/activity-logs', [ActivityLogController::class, 'index']);
 });
 
-Route::get('/api-sync', [GastroMasterController::class, 'syncData']);
 
-// Waiter Authentication Routes
-Route::prefix('waiter')->group(function () {
-    Route::post('/login', [WaiterLoginController::class, 'login']);
-});
-
-// Protected Waiter Routes
-Route::group(['prefix' => 'waiter', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/logout', [WaiterLoginController::class, 'logout']);
-
-    Route::get('tables/{branch_id}', [WaiterTableController::class, 'tableList']);
-    Route::post('tables/{table_id}/status', [WaiterTableController::class, 'updateTableStatus']);
-    Route::post('tables/reserve', [WaiterTableController::class, 'reserveTable']);
-
-    Route::post('/complete-order/{order_id}', [OrderController::class, 'completeOrder']);
-});
 
 Route::post('/get-table-order-summary/{table_id}', [OrderController::class, 'getOrderDetails']);
 
@@ -135,9 +108,6 @@ Route::get('/menu-categories/list/{branch_id}', [MenuCategoryController::class, 
 Route::post('/menu-category-dishes/list', [MenuCategoryController::class, 'dish_list_of_the_given_category']);
 
 // Today Order count api
-Route::get('/orders/today-count', [DashboardController::class, 'getTodayOrderCount']);
-Route::get('/orders/complete-orders', [DashboardController::class, 'getCompletedOrders']);
-Route::get('/orders/monthly-count', [DashboardController::class, 'getMonthlyOrderCount']);
 Route::post('/get-cart-summary', [OrderController::class, 'getCartSummary']);
 Route::post('/send-to-kitchen', [OrderController::class, 'sendToKitchenPOS']);
 Route::post('/complete-order/{order_id}', [OrderController::class, 'cashierCompleteOrder']);

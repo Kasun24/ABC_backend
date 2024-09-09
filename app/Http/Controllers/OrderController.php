@@ -45,7 +45,7 @@ class OrderController extends Controller
             $ongoingOrder = new Order();
             $ongoingOrder->branch_id = $request->table_details['branch_id'];
             $ongoingOrder->table_orders_id = $request->table_details['id'];
-            $ongoingOrder->payment_type = 'cash_handled_by_waiter';
+            $ongoingOrder->payment_type = 'cash_handled_by_staff';
             $ongoingOrder->payment_id = Helper::GetPaymentID();
             $ongoingOrder->status = 'processing'; //completed
             $ongoingOrder->order_delivery_type = 'dine_in';
@@ -211,7 +211,7 @@ class OrderController extends Controller
             $ongoingOrder = new Order();
             $ongoingOrder->branch_id = $request->table_details['branch_id'];
             $ongoingOrder->table_orders_id = $request->table_details['id'];
-            $ongoingOrder->payment_type = 'cash_handled_by_waiter';
+            $ongoingOrder->payment_type = 'cash_handled_by_staff';
             $ongoingOrder->payment_id = Helper::GetPaymentID();
             $ongoingOrder->status = $orderDeliveryType === 'dine_in' ? 'processing' : 'completed'; //completed
             $ongoingOrder->order_delivery_type = $orderDeliveryType;
@@ -601,7 +601,7 @@ class OrderController extends Controller
             $payment->customer_id = $order->customerDevice->id;
             $payment->amount = $order->gross_total;
             $payment->payment_type = $request->paymentMethod;
-            $payment->waiter_id = auth()->user()->id;
+            $payment->staff_id = auth()->user()->id;
             $payment->save();
 
             $order->status = 'completed';
@@ -1045,7 +1045,7 @@ class OrderController extends Controller
             $payment->customer_id = $order->customerDevice->id;
             $payment->amount = $order->gross_total;
             $payment->payment_type = $request->paymentMethod;
-            $payment->waiter_id = $request->cashier_id;
+            $payment->staff_id = $request->cashier_id;
             $payment->save();
 
             $order->status = 'completed';

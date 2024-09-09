@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
@@ -71,8 +70,7 @@ class DatabaseSeeder extends Seeder
         // Set default roles to database
         $roles = [
             "admin",
-            "waiter",
-            "cashier"
+            "staff",
         ];
 
         foreach ($roles as $role) {
@@ -137,18 +135,7 @@ class DatabaseSeeder extends Seeder
             'activity_log_view',
         ];
 
-        $waiter_permissions = [
-            'user_view',
-            'user_add',
-            'user_update',
-            'category_view',
-            'product_view',
-            'toping_view',
-            'settings_view',
-            'settings_update',
-        ];
-
-        $cashier_permissions = [
+        $staff_permissions = [
             'user_view',
             'user_add',
             'user_update',
@@ -163,10 +150,8 @@ class DatabaseSeeder extends Seeder
             $role_permissions = [];
             if ($role->role == "admin") {
                 $role_permissions = $admin_permissions;
-            } elseif ($role->role == "waiter") {
-                $role_permissions = $waiter_permissions;
-            } elseif ($role->role == "cashier") {
-                $role_permissions = $cashier_permissions;
+            } elseif ($role->role == "staff") {
+                $role_permissions = $staff_permissions;
             }
             foreach ($role_permissions as $permission) {
                 $perm = DB::table("permissions")->select("id")->where("permission", $permission)->first();

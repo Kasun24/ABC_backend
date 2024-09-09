@@ -21,8 +21,8 @@ class CreateOrderPaymentsTable extends Migration
             $table->foreignId('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customer_devices');
             $table->double('amount', 8, 2);
-            $table->enum('payment_type', ['cod','paypal','ecCard','mollie','points','card_handled_by_waiter','cash_handled_by_waiter']);
-            $table->bigInteger('waiter_id')->nullable();
+            $table->enum('payment_type', ['cod', 'paypal', 'ecCard', 'mollie', 'points', 'card_handled_by_staff', 'cash_handled_by_staff']);
+            $table->bigInteger('staff_id')->nullable();
             $table->timestamps();
         });
     }
