@@ -20,6 +20,7 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
           MYSQL_DATABASE: abc_restaurant
           MYSQL_USER: root
           MYSQL_PASSWORD: ""
