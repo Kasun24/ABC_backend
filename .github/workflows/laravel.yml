@@ -19,7 +19,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: ""
           MYSQL_DATABASE: abc_restaurant
           MYSQL_USER: root
           MYSQL_PASSWORD: ""
@@ -32,34 +32,34 @@ jobs:
           --health-retries=5
 
     steps:
-    # Check out the code from your repository
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Check out the code from your repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # Set up PHP with the desired version
-    - name: Set up PHP, with extensions and tools
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        extensions: mbstring, pdo, pdo_mysql
-        tools: composer, phpunit
+      # Set up PHP with the desired version
+      - name: Set up PHP, with extensions and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          extensions: mbstring, pdo, pdo_mysql
+          tools: composer, phpunit
 
-    # Install Composer dependencies
-    - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      # Install Composer dependencies
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
 
-    # Copy .env file for Laravel
-    - name: Set up Laravel environment
-      run: |
-        cp .env.example .env
-        php artisan key:generate
+      # Copy .env file for Laravel
+      - name: Set up Laravel environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
 
-    # Run database migrations
-    - name: Run migrations
-      run: php artisan migrate --env=testing
+      # Run database migrations
+      - name: Run migrations
+        run: php artisan migrate --env=testing
 
-    # Run PHPUnit tests
-    - name: Run tests
-      run: php artisan test
+      # Run PHPUnit tests
+      - name: Run tests
+        run: php artisan test
 
     # If needed, you can add additional steps for caching dependencies, setting up Node.js for Vue.js testing, etc.
