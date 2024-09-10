@@ -22,7 +22,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: abc_restaurant
           MYSQL_USER: root
-          MYSQL_PASSWORD: 
+          MYSQL_PASSWORD: ""
         ports:
           - 3306:3306
         options: >-
